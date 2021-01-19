@@ -1,5 +1,6 @@
 import pandas
 import datetime
+import collections
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -8,8 +9,12 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-excel_data_df = pandas.read_excel('wine.xlsx', usecols=['Название', 'Сорт', 'Цена', 'Картинка'])
+excel_data_df = pandas.read_excel('wine2.xlsx', usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка'], na_values=' ', keep_default_na=False)
 wines = excel_data_df.to_dict(orient='records')
+dict_of_wines = collections.defaultdict(list)
+for i in range(len(wines)):
+    dict_of_wines[wines[i]['Категория']].append(wines[i])
+dict_of_wines = dict(sorted(dict_of_wines.items()))
 
 foundation_year = 1920
 now_year = datetime.datetime.now().year
@@ -27,8 +32,8 @@ else:
 template = env.get_template('template.html')
 
 rendered_page = template.render(
-	wines = wines,
-    text_age = text_age
+    dict_of_wines=dict_of_wines,
+    text_age=text_age
 )
 
 with open('index.html', 'w', encoding="utf8") as file:
