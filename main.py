@@ -9,7 +9,7 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-excel_data_df = pandas.read_excel('wine2.xlsx', usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка'], na_values=' ', keep_default_na=False)
+excel_data_df = pandas.read_excel('wine3.xlsx', usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
 wines = excel_data_df.to_dict(orient='records')
 dict_of_wines = collections.defaultdict(list)
 for i in range(len(wines)):
