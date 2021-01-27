@@ -1,3 +1,5 @@
+import os
+import dotenv
 import pandas
 import datetime
 import collections
@@ -8,8 +10,9 @@ env = Environment(
     loader=FileSystemLoader('.'),
     autoescape=select_autoescape(['html', 'xml'])
 )
-
-excel_data_df = pandas.read_excel('wine3.xlsx', usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
+dotenv.load_dotenv()
+EXCEL_FILE_PATH = os.getenv('EXCEL_FILE_PATH')
+excel_data_df = pandas.read_excel(EXCEL_FILE_PATH, usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
 excel_data_wines = excel_data_df.to_dict(orient='records')
 wines = collections.defaultdict(list)
 for i in range(len(excel_data_wines)):
