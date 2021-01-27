@@ -32,7 +32,7 @@ else:
 template = env.get_template('template.html')
 
 rendered_page = template.render(
-    dict_of_wines=wines,
+    wines=wines,
     text_age=text_age
 )
 
