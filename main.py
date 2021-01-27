@@ -15,8 +15,9 @@ EXCEL_FILE_PATH = os.getenv('EXCEL_FILE_PATH')
 excel_data_df = pandas.read_excel(EXCEL_FILE_PATH, usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
 excel_data_wines = excel_data_df.to_dict(orient='records')
 wines = collections.defaultdict(list)
-for i in range(len(excel_data_wines)):
-    wines[excel_data_wines[i]['Категория']].append(excel_data_wines[i])
+
+for raw in excel_data_wines:
+    wines[raw['Категория']].append(raw)
 wines = dict(sorted(wines.items()))
 
 foundation_year = 1920
