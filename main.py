@@ -10,11 +10,11 @@ env = Environment(
 )
 
 excel_data_df = pandas.read_excel('wine3.xlsx', usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
-wines = excel_data_df.to_dict(orient='records')
-dict_of_wines = collections.defaultdict(list)
-for i in range(len(wines)):
-    dict_of_wines[wines[i]['Категория']].append(wines[i])
-dict_of_wines = dict(sorted(dict_of_wines.items()))
+excel_data_wines = excel_data_df.to_dict(orient='records')
+wines = collections.defaultdict(list)
+for i in range(len(excel_data_wines)):
+    wines[excel_data_wines[i]['Категория']].append(excel_data_wines[i])
+wines = dict(sorted(wines.items()))
 
 foundation_year = 1920
 now_year = datetime.datetime.now().year
@@ -32,7 +32,7 @@ else:
 template = env.get_template('template.html')
 
 rendered_page = template.render(
-    dict_of_wines=dict_of_wines,
+    dict_of_wines=wines,
     text_age=text_age
 )
 
