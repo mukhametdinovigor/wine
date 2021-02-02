@@ -7,20 +7,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
-dotenv.load_dotenv()
-EXCEL_FILE_PATH = os.getenv('EXCEL_FILE_PATH')
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
-
-
-def get_excel_df(excel_path):
+def get_wines(excel_path):
     excel_df = pandas.read_excel(excel_path, usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
-    return excel_df
-
-
-def get_wines(excel_df):
     excel_wines = excel_df.to_dict(orient='records')
     wines = collections.defaultdict(list)
     for wine in excel_wines:
@@ -43,9 +31,14 @@ def get_winery_age():
 
 
 def main():
+    dotenv.load_dotenv()
+    excel_file_path = os.getenv('excel_file_path')
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
     winery_age = get_winery_age()
-    excel_df = get_excel_df(EXCEL_FILE_PATH)
-    wines = get_wines(excel_df)
+    wines = get_wines(excel_file_path)
     template = env.get_template('template.html')
     rendered_page = template.render(
         wines=wines,
