@@ -12,12 +12,12 @@ env = Environment(
 )
 dotenv.load_dotenv()
 EXCEL_FILE_PATH = os.getenv('EXCEL_FILE_PATH')
-excel_data_df = pandas.read_excel(EXCEL_FILE_PATH, usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
-excel_data_wines = excel_data_df.to_dict(orient='records')
+excel_df = pandas.read_excel(EXCEL_FILE_PATH, usecols=['Категория', 'Название', 'Сорт', 'Цена', 'Картинка', 'Акция'], na_values=' ', keep_default_na=False)
+excel_wines = excel_df.to_dict(orient='records')
 wines = collections.defaultdict(list)
 
-for raw in excel_data_wines:
-    wines[raw['Категория']].append(raw)
+for wine in excel_wines:
+    wines[wine['Категория']].append(wine)
 wines = dict(sorted(wines.items()))
 
 foundation_year = 1920
