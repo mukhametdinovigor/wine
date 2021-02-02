@@ -44,8 +44,8 @@ def get_winery_age():
 
 def main():
     winery_age = get_winery_age()
-    excel_wines = get_excel_df(EXCEL_FILE_PATH)
-    wines = get_wines(excel_wines)
+    excel_df = get_excel_df(EXCEL_FILE_PATH)
+    wines = get_wines(excel_df)
     template = env.get_template('template.html')
     rendered_page = template.render(
         wines=wines,
