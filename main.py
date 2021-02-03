@@ -30,15 +30,15 @@ def get_winery_age():
     return text_age
 
 
-def main():
+if __name__ == '__main__':
     dotenv.load_dotenv()
-    excel_file_path = os.getenv('excel_file_path')
+    EXCEL_FILE_PATH = os.getenv('excel_file_path')
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
     winery_age = get_winery_age()
-    wines = get_wines(excel_file_path)
+    wines = get_wines(EXCEL_FILE_PATH)
     template = env.get_template('template.html')
     rendered_page = template.render(
         wines=wines,
@@ -48,7 +48,3 @@ def main():
         file.write(rendered_page)
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
-
-
-if __name__ == '__main__':
-    main()
