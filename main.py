@@ -21,12 +21,12 @@ def get_winery_age():
     foundation_year = 1920
     now_year = datetime.datetime.now().year
     age = now_year - foundation_year
-    if (age % 10 == 1) and (age != 11) and (age != 111):
-        text_age = f'{age} год'
-    elif (age % 10 > 1) and (age % 10 < 5) and (age != 12) and (age != 13) and (age != 14):
+    if 5 <= age % 100 <= 20 or age % 10 == 0 or 5 <= age % 10 <= 9:
+        text_age = f'{age} лет'
+    elif 2 <= age % 10 <= 4:
         text_age = f'{age} года'
     else:
-        text_age = f'{age} лет'
+        text_age = f'{age} год'
     return text_age
 
 
